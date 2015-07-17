@@ -24,6 +24,7 @@ namespace Backend
 
     public class RoslynRun
     {
+        #region MemberGetters
         private static IEnumerable<FieldNode> GetFieldNodes(FieldDeclarationSyntax fd)
         {
             // For each variable in the field
@@ -37,6 +38,7 @@ namespace Backend
                 yield return field;
             }
         }
+
         private static MethodNode GetMethodNode(MethodDeclarationSyntax method)
         {
             MethodNode methodnode 	= new MethodNode();
@@ -53,7 +55,12 @@ namespace Backend
             }
             return methodnode;
         }
-		private static PropertyNode GetPropertyNode(PropertyDeclarationSyntax property)
+		/// <summary>
+        /// /*Gets the property details from the syntax.*/
+        /// </summary>
+        /// <returns>The property node.</returns>
+        /// <param name="property">Property.</param>
+        private static PropertyNode GetPropertyNode(PropertyDeclarationSyntax property)
 		{
 			PropertyNode propertynode 	= new PropertyNode();
 			propertynode.Name 			= property.Identifier.ToString();
@@ -62,13 +69,19 @@ namespace Backend
 
 			return propertynode;
 		}
+
         private static EventNode GetEventNode(EventDeclarationSyntax evnt)
         {
             EventNode eventnode = new EventNode();
             eventnode.Name      = evnt.Identifier.ToString();
             eventnode.Modifier  = evnt.Modifiers.ToString();
+            //TODO
             return eventnode;
         }
+
+        #endregion MemberGetters
+
+        #region TypeGetters
         private static ClassNode GetClassNode(ClassDeclarationSyntax EachClass)
         {
             ClassNode classnode = new ClassNode();
@@ -100,24 +113,31 @@ namespace Backend
 				{
                     EventDeclarationSyntax evnt = member as EventDeclarationSyntax;
                     classnode.Events.Add(GetEventNode(evnt));
-					//TODO
 				}
             }
 
             if (EachClass.BaseList != null)
             {
+                // We make use of the semantic model as it is required to get the full namespace
+                // of the class/interface else there would be problems resolving links in the 
+                // class diagram.
+
 				var res = model.GetDeclaredSymbol(EachClass);
 				var baseType = res.BaseType.ToString();
+
                 if(!baseType.Equals("object")){
+                    // Only one inheritance possible.
                     classnode.Links.Add(baseType);
                 }
                 foreach(var item in res.Interfaces)
                 {
+                    //Add all interfaces that the class implements
                     classnode.Links.Add(item.ToString());
                 }
             }
             return classnode;
         }
+
         private static StructNode GetStructNode(StructDeclarationSyntax EachStruct)
         {
             StructNode structnode = new StructNode();
@@ -149,6 +169,7 @@ namespace Backend
             }
             return structnode;
         }
+
         private static InterfaceNode GetInterfaceNode(InterfaceDeclarationSyntax EachInterface)
         {
             InterfaceNode interfacenode = new InterfaceNode();
@@ -158,17 +179,9 @@ namespace Backend
                 MethodDeclarationSyntax method = member as MethodDeclarationSyntax;
                 interfacenode.Methods.Add(GetMethodNode(method));
             }
-            //if (EachInterface.BaseList != null)
-            //{
-            //    foreach (var baseType in EachInterface.BaseList.Types)
-            //    {
-            //        interfacenode.Links.Add(baseType.ToString());
-            //    }
-            //}
             if (EachInterface.BaseList != null)
             {
                 var res = model.GetDeclaredSymbol(EachInterface);
-
                 foreach(var item in res.Interfaces)
                 {
                     interfacenode.Links.Add(item.ToString());
@@ -183,6 +196,9 @@ namespace Backend
             enumnode.Name = EachEnum.Identifier.ToString();
             foreach (var member in EachEnum.Members)
             {
+                FieldNode f = new FieldNode();
+                f.Name = member.Identifier.ToString();
+                enumnode.Fields.Add(f);
                 //Console.WriteLine(member.Identifier.ToString());
                 //enumnode.AddMember(member.Identifier.ToString());
                 //enumnode.Fields.Add(member.Identifier.ToString());
@@ -191,29 +207,11 @@ namespace Backend
 
             return enumnode;
         }
-		public static UMLClass ParseFiles(Compilation compilation)
+		
+        #endregion TypeGetters
+
+        public static UMLClass ParseFiles(Compilation compilation)
         {
-
-			//RoslynRun.compilation = compilation;
-            //List<SyntaxTree> syntaxTrees = new List<SyntaxTree>();
-            //foreach (var file in solution.AllFiles)
-            //{
-            //    syntaxTrees.Add(CSharpSyntaxTree.ParseText(file.OriginalText));
-            //}
-			
-            //var references = new MetadataReference[]
-            //{
-            //        MetadataReference.CreateFromAssembly(typeof(object).Assembly),
-            //        MetadataReference.CreateFromAssembly(typeof(System.IO.File).Assembly),
-            //        MetadataReference.CreateFromAssembly(typeof(System.String).Assembly),
-            //        MetadataReference.CreateFromAssembly(typeof(System.Linq.Enumerable).Assembly),
-            //};
-
-            //var compilation = CSharpCompilation.Create("temporary",
-            //                                             syntaxTrees,
-            //                                            references);
-            //var diagnostics = compilation.GetDiagnostics();
-
 			foreach (var item in compilation.GetDiagnostics())
             {
                 if (item.Severity == DiagnosticSeverity.Error)
@@ -221,34 +219,30 @@ namespace Backend
                     Console.WriteLine("Code has compile time errors. Kindly fix them");
 					Console.WriteLine(item.GetMessage());
 					Console.WriteLine(item.ToString());
-					//Console.WriteLine(item.Descriptor.ToString());
 					Console.WriteLine(item.Location.ToString());
-					//Console.WriteLine(item.
-                    //return new UMLClass();
+
                 }
             }
-			var syntaxTrees = compilation.SyntaxTrees;
+			
+            var syntaxTrees = compilation.SyntaxTrees;
 			foreach(var syntaxTree in syntaxTrees)
 			{
 				models.Add(compilation.GetSemanticModel(syntaxTree));
 			}
+
             UMLClass uml = new UMLClass();
+            // Each file in the project
             foreach (var st in syntaxTrees)
             {
-				var AllClasses = st.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
+                // Get semantic model for this file for getting info like class namespaces
 				model = compilation.GetSemanticModel(st);
 
                 //For each class in file
+                var AllClasses = st.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
                 foreach (var EachClass in AllClasses)
                 {
 					ClassNode c = GetClassNode(EachClass);
 					c.Namespace = model.GetDeclaredSymbol(EachClass).ToString();
-                    Console.Write(c.Namespace);
-                    foreach(var item in c.Links){
-                        Console.Write(item + " ");
-                    }
-                    Console.WriteLine();
-					//c.Namespace = model.GetTypeInfo(EachClass).Type.ContainingNamespace.ToString();
                     uml.ClassNodes.Add(c);
                 }
 
@@ -282,31 +276,9 @@ namespace Backend
 
 
 		private static SemanticModel model;
-		//private static Compilation compilation;
+
 		private static List<SemanticModel> models = new List<SemanticModel>();
-        //public UMLClass AnalyzeCode(Solution solution)
-        //{
-        //    // string path = @"D:\gsoc related\Roslyn\RoslynExperiments\RoslynExperiments\TestCode";
-        //    //string path = @"D:\gsoc related\Roslyn\RoslynExperiments\RoslynExperiments.sln";
-            
-        //    // var workspace = MSBuildWorkspace.Create().OpenSolutionAsync(path);
-        //    //string[] files = Directory.GetFiles(path);
-        //    //List<string> fileContent = new List<string>();
-        //    //foreach (string fileName in files)
-        //    //{
-        //    //    //if (Path.GetExtension(fileName) == ".cs")
-        //    //    //{
-        //    //    //    string readText = File.ReadAllText(fileName);
-        //    //    //    //   Console.WriteLine("Examining file " + fileName + "\n");
-        //    //    //    fileContent.Add(readText);
-        //    //    //    // ParseFiles(readText);
-        //    //    //    // Console.Write("\n\n\n\n");
-        //    //    //}
-        //    //}
-        //     return ParseFiles(solution);
-        //    //return ParseFiles(fileContent);
-        //  //  Console.ReadLine();
-        //}
+ 
     }
 
 }
