@@ -59,8 +59,16 @@ namespace Backend
 			propertynode.Name 			= property.Identifier.ToString();
 			propertynode.Modifier 		= property.Modifiers.ToString();
 			propertynode.ReturnType 	= property.Type.ToString();
+
 			return propertynode;
 		}
+        private static EventNode GetEventNode(EventDeclarationSyntax evnt)
+        {
+            EventNode eventnode = new EventNode();
+            eventnode.Name      = evnt.Identifier.ToString();
+            eventnode.Modifier  = evnt.Modifiers.ToString();
+            return eventnode;
+        }
         private static ClassNode GetClassNode(ClassDeclarationSyntax EachClass)
         {
             ClassNode classnode = new ClassNode();
@@ -90,6 +98,8 @@ namespace Backend
 				}
 				else if (member is EventDeclarationSyntax)
 				{
+                    EventDeclarationSyntax evnt = member as EventDeclarationSyntax;
+                    classnode.Events.Add(GetEventNode(evnt));
 					//TODO
 				}
             }
@@ -184,7 +194,7 @@ namespace Backend
 		public static UMLClass ParseFiles(Compilation compilation)
         {
 
-			RoslynRun.compilation = compilation;
+			//RoslynRun.compilation = compilation;
             //List<SyntaxTree> syntaxTrees = new List<SyntaxTree>();
             //foreach (var file in solution.AllFiles)
             //{
@@ -217,7 +227,6 @@ namespace Backend
                     //return new UMLClass();
                 }
             }
-			Console.WriteLine(".\n.\n.\n.");
 			var syntaxTrees = compilation.SyntaxTrees;
 			foreach(var syntaxTree in syntaxTrees)
 			{
@@ -273,7 +282,7 @@ namespace Backend
 
 
 		private static SemanticModel model;
-		private static Compilation compilation;
+		//private static Compilation compilation;
 		private static List<SemanticModel> models = new List<SemanticModel>();
         //public UMLClass AnalyzeCode(Solution solution)
         //{

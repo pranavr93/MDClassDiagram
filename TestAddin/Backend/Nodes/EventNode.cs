@@ -9,6 +9,7 @@ namespace Backend
 	public class EventNode
 	{
 		public string Name{get;set;}
+        public string Modifier{get;set;}
 		public EventNode()
 		{
 
