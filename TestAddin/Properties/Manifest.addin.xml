@@ -1,0 +1,12 @@
+﻿<ExtensionModel>
+    <Extension path = "/MonoDevelop/Ide/Commands/Edit">
+        <Command id = "FirstAddin.DateInserterCommands.InsertDate"
+                 _label = "View Class Diagram"
+                 _description = "Insert the current date"
+                  defaultHandler = "FirstAddin.InsertDateHandler"/> />
+    </Extension>
+
+    <Extension path = "/MonoDevelop/Ide/ContextMenu/ProjectPad">
+        <CommandItem id="FirstAddin.DateInserterCommands.InsertDate" />
+    </Extension>
+</ExtensionModel>
