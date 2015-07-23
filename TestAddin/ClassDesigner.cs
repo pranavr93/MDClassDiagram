@@ -65,9 +65,9 @@ namespace FirstAddin{
 			// Iterate over links of all entities and draw links.
 			foreach (var node in AllNodes) {
 				TypeFigure subclass = GetFigure(node.Namespace);
-                Console.WriteLine(node.Namespace + " count " + node.Links.Count);
+                //Console.WriteLine(node.Namespace + " count " + node.Links.Count);
 				foreach(var link in node.Links){
-                    Console.WriteLine(node.Namespace + " " + link);
+                    //Console.WriteLine(node.Namespace + " " + link);
 					TypeFigure superclass = GetFigure(link);
 					if (subclass != null && superclass != null) {
 						InheritanceConnectionFigure connection = new InheritanceConnectionFigure(subclass, superclass);
@@ -78,13 +78,13 @@ namespace FirstAddin{
 
 		}
 		private TypeFigure GetFigure(string name) {
-            Console.WriteLine("In func: " + name); 
+            //Console.WriteLine("In func: " + name); 
 			foreach (TypeFigure figure in figures) {
-                Console.WriteLine("Try : " + figure.Namespace);
+                //Console.WriteLine("Try : " + figure.Namespace);
 				if (figure.Namespace == name)
 					return figure;
 			}
-            Console.WriteLine("\n\n");
+            //Console.WriteLine("\n\n");
 			return null;
 		}
 		private MonoHotDraw.SteticComponent mhdEditor;	

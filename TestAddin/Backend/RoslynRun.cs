@@ -70,12 +70,13 @@ namespace Backend
 			return propertynode;
 		}
 
-        private static EventNode GetEventNode(EventDeclarationSyntax evnt)
+        private static EventNode GetEventNode(EventFieldDeclarationSyntax evnt)
         {
             EventNode eventnode = new EventNode();
-            eventnode.Name      = evnt.Identifier.ToString();
+            eventnode.Name      = evnt.EventKeyword.ToString();
             eventnode.Modifier  = evnt.Modifiers.ToString();
-            //TODO
+            //Console.WriteLine(eventnode.Name);
+            //Console.WriteLine(eventnode.Modifier);
             return eventnode;
         }
 
@@ -90,6 +91,7 @@ namespace Backend
             // For each member in that class
             foreach (var member in EachClass.Members)
             {
+                //Console.WriteLine(member.ToFullString());
                 if (member is FieldDeclarationSyntax)
                 {
                     FieldDeclarationSyntax fd = member as FieldDeclarationSyntax;
@@ -109,9 +111,10 @@ namespace Backend
 					PropertyDeclarationSyntax property = member as PropertyDeclarationSyntax;
 					classnode.Properties.Add(GetPropertyNode(property));
 				}
-				else if (member is EventDeclarationSyntax)
+                else if (member is EventFieldDeclarationSyntax)
 				{
-                    EventDeclarationSyntax evnt = member as EventDeclarationSyntax;
+                    //Console.WriteLine("Event found");
+                    EventFieldDeclarationSyntax evnt = member as EventFieldDeclarationSyntax; 
                     classnode.Events.Add(GetEventNode(evnt));
 				}
             }
@@ -159,6 +162,17 @@ namespace Backend
                     MethodDeclarationSyntax method = member as MethodDeclarationSyntax;
                     structnode.Methods.Add(GetMethodNode(method));
                 }
+                else if (member is PropertyDeclarationSyntax)
+                {
+                    PropertyDeclarationSyntax property = member as PropertyDeclarationSyntax;
+                    structnode.Properties.Add(GetPropertyNode(property));
+                }
+                else if (member is EventFieldDeclarationSyntax)
+                {
+                    //Console.WriteLine("Event found");
+                    EventFieldDeclarationSyntax evnt = member as EventFieldDeclarationSyntax; 
+                    structnode.Events.Add(GetEventNode(evnt));
+                }
             }
             if (EachStruct.BaseList != null)
             {
@@ -176,8 +190,22 @@ namespace Backend
 			interfacenode.Name = EachInterface.Identifier.ToString();
             foreach (var member in EachInterface.Members)
             {
-                MethodDeclarationSyntax method = member as MethodDeclarationSyntax;
-                interfacenode.Methods.Add(GetMethodNode(method));
+                if (member is MethodDeclarationSyntax)
+                {
+                    MethodDeclarationSyntax method = member as MethodDeclarationSyntax;
+                    interfacenode.Methods.Add(GetMethodNode(method));
+                }
+                else if (member is PropertyDeclarationSyntax)
+                {
+                    PropertyDeclarationSyntax property = member as PropertyDeclarationSyntax;
+                    interfacenode.Properties.Add(GetPropertyNode(property));
+                }
+                else if (member is EventFieldDeclarationSyntax)
+                {
+                    //Console.WriteLine("Event found");
+                    EventFieldDeclarationSyntax evnt = member as EventFieldDeclarationSyntax; 
+                    interfacenode.Events.Add(GetEventNode(evnt));
+                }
             }
             if (EachInterface.BaseList != null)
             {
@@ -267,7 +295,9 @@ namespace Backend
                 var AllEnums = st.GetRoot().DescendantNodes().OfType<EnumDeclarationSyntax>();
                 foreach (var EachEnum in AllEnums)
                 {
-                    uml.EnumNodes.Add(GetEnumNode(EachEnum));
+                    EnumNode enode = GetEnumNode(EachEnum);
+                    enode.Namespace = model.GetDeclaredSymbol(EachEnum).ToString();
+                    uml.EnumNodes.Add(enode);
                 }
             }
 			Console.WriteLine(".\n.\n.\n.");

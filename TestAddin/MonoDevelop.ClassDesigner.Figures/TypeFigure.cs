@@ -35,6 +35,32 @@ using MonoDevelop.Core;
 using Backend;
 
 
+//using System;
+//using System.Collections.Generic;
+using System.IO;
+
+//using Gtk;
+//using Gdk;
+
+//using MonoDevelop.Core;
+using MonoDevelop.Ide;
+using MonoDevelop.Ide.Gui;
+using MonoDevelop.Projects;
+using Mono.TextEditor;
+using System.ComponentModel;
+
+
+//using System;
+
+using Mono.Addins;
+
+//using MonoDevelop.Ide.Gui;
+//using MonoDevelop.Ide.Gui.Pads;
+
+//using MonoDevelop.Projects;
+using MonoDevelop.Ide.Gui.Components;
+
+
 namespace MonoDevelop.ClassDesigner.Figures {
 
 	public abstract class TypeFigure: VStackFigure {
@@ -54,7 +80,7 @@ namespace MonoDevelop.ClassDesigner.Figures {
 					Remove(members);
 				}
 			};
-			expandHandle.Active = true;
+			expandHandle.Active = false;
 			expandHandle.FillColor = new Cairo.Color(0,0,0.0,0.0);
 			CreateGroups();
 		}
@@ -64,15 +90,22 @@ namespace MonoDevelop.ClassDesigner.Figures {
 			Header.Namespace = node.Namespace;
 			Header.Type = node.Type.ToString();
 			foreach(var field in node.Fields){
-				Pixbuf icon = null;
-				AddField(icon,field.ReturnType,field.Name);
+                Pixbuf icon = null;
+                AddField(icon,field.ReturnType, field.Name);
+                //Pixbuf icon = MonoDevelop.Ide.ImageService.Get(MonoDevelop.Ide.Gui.Stock.Property, IconSize.Menu);
 			}
 			foreach(var method in node.Methods){
 				Pixbuf icon = null;
 				AddMethod(icon,method.ReturnType,method.Name);
 			}
-
-
+            foreach(var evnt in node.Events){
+                Pixbuf icon = null;
+                AddEvent(icon, evnt.ReturnType,evnt.Name);
+            }
+            foreach(var property in node.Properties){
+                Pixbuf icon = null;
+                AddProperty(icon, property.ReturnType, property.Name);
+            }
 		}
 
 
@@ -89,7 +122,8 @@ namespace MonoDevelop.ClassDesigner.Figures {
 			rect.OffsetDot5();
 			context.LineWidth = 1.0;
 			context.Rectangle(GdkCairoHelper.CairoRectangle(rect));
-			context.Color = new Cairo.Color(1.0, 1.0, 0.7, 0.3);
+			//context.Color = new Cairo.Color(1.0, 1.0, 0.7, 0.3);
+            context.Color = new Cairo.Color(0.879, 0.88, 0.90, 1.0);
 			context.FillPreserve();
 			context.Color = new Cairo.Color(0.0, 0.0, 0.0, 1.0);
 			context.Stroke();

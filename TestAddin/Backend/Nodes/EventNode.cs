@@ -10,6 +10,7 @@ namespace Backend
 	{
 		public string Name{get;set;}
         public string Modifier{get;set;}
+        public string ReturnType{get;set;}
 		public EventNode()
 		{
 

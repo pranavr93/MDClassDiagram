@@ -26,6 +26,7 @@ namespace FirstAddin
 			return ;
 
 
+
 			//MonoDevelop.Ide.Gui.Document doc = IdeApp.Workbench.ActiveDocument;
 			//string date = DateTime.Now.ToString ();
 
@@ -33,8 +34,6 @@ namespace FirstAddin
 			//	IdeApp.ProjectOperations.CurrentSelectedProject,"hello"); 
 			string test = "";
 			//Document d = IdeApp.Workbench.NewDocument("Class Diagram","text/plain" , "whats up?");
-
-
 
 			ProjectFile pf = selectedProject.AddFile("class_diagram");
 			IdeApp.Workbench.OpenDocument(pf.FilePath,selectedProject,true);
