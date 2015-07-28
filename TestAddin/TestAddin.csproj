@@ -63,6 +63,7 @@
     <Compile Include="MonoDevelop.ClassDesigner.Figures\InterfaceFigure.cs" />
     <Compile Include="MonoDevelop.ClassDesigner.Figures\StructFigure.cs" />
     <Compile Include="MonoDevelop.ClassDesigner.Figures\EnumFigure.cs" />
+    <Compile Include="TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.NRefactory">

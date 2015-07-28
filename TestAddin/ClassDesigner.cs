@@ -23,6 +23,60 @@ namespace FirstAddin{
 				return mhdEditor;
 			}
 		}
+        public void BruteLayout(List<Node> AllNodes)
+        {
+            //Algorithm 1 for layout
+            double x = 50.0;
+            double y = 50.0;
+
+            foreach (TypeFigure figure in figures)  {
+                mhdEditor.View.Drawing.Add(figure);
+                figure.MoveTo(x, y);
+                x += figure.DisplayBox.Width + 50.0;
+                if (x > 1000.0) {
+                    x = 50.0;
+                    y += figure.DisplayBox.Height + 100.0;
+                }
+            }
+            // Iterate over links of all entities and draw links.
+            foreach (var node in AllNodes) {
+                TypeFigure subclass = GetFigure(node.Namespace);
+                //Console.WriteLine(node.Namespace + " count " + node.Links.Count);
+                foreach(var link in node.Links){
+                    //Console.WriteLine(node.Namespace + " " + link);
+                    TypeFigure superclass = GetFigure(link);
+                    if (subclass != null && superclass != null) {
+                        InheritanceConnectionFigure connection = new InheritanceConnectionFigure(subclass, superclass);
+                        mhdEditor.View.Drawing.Add(connection);
+                    }
+                }
+            }
+        }
+        Dictionary<string,TreeNode> map = new Dictionary<string, TreeNode>();
+        private TreeNode GetTreeNode(string name)
+        {
+            if(map.ContainsKey(name))
+                return map[name];
+            else
+                return null;
+        }
+        public void TreeBasedLayout(UMLClass cls)
+        {
+            
+            foreach(var cnode in cls.ClassNodes)
+            {
+                TreeNode tn = new TreeNode(cnode.Namespace);
+                map.Add(tn.Name,tn);
+            }
+            foreach(var cnode in cls.ClassNodes)
+            {
+                foreach(var parent in cnode.Links)
+                {
+                    var parentnode = GetTreeNode(parent);
+
+                }
+            }
+        }
 		public ClassDesigner(UMLClass cls)
 		{
 			
@@ -50,37 +104,13 @@ namespace FirstAddin{
 				figures.Add(new EnumFigure(enumnode));
 				AllNodes.Add(enumnode);
 			}
-			double x = 50.0;
-			double y = 50.0;
 
-			foreach (TypeFigure figure in figures)  {
-				mhdEditor.View.Drawing.Add(figure);
-				figure.MoveTo(x, y);
-				x += figure.DisplayBox.Width + 50.0;
-				if (x > 1000.0) {
-					x = 50.0;
-					y += figure.DisplayBox.Height + 100.0;
-				}
-			}
-			// Iterate over links of all entities and draw links.
-			foreach (var node in AllNodes) {
-				TypeFigure subclass = GetFigure(node.Namespace);
-                //Console.WriteLine(node.Namespace + " count " + node.Links.Count);
-				foreach(var link in node.Links){
-                    //Console.WriteLine(node.Namespace + " " + link);
-					TypeFigure superclass = GetFigure(link);
-					if (subclass != null && superclass != null) {
-						InheritanceConnectionFigure connection = new InheritanceConnectionFigure(subclass, superclass);
-						mhdEditor.View.Drawing.Add(connection);
-					}
-				}
-			}
+            BruteLayout(AllNodes);
+            TreeBasedLayout(cls);
 
 		}
 		private TypeFigure GetFigure(string name) {
-            //Console.WriteLine("In func: " + name); 
 			foreach (TypeFigure figure in figures) {
-                //Console.WriteLine("Try : " + figure.Namespace);
 				if (figure.Namespace == name)
 					return figure;
 			}
