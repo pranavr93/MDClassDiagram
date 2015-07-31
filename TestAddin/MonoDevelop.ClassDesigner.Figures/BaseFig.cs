@@ -1,9 +1,10 @@
-// MonoDevelop ClassDesigner
+﻿//
+// MonoHotDraw. Diagramming library
 //
 // Authors:
 //  Manuel Cerón <ceronman@gmail.com>
 //
-// Copyright (C) 2009 Manuel Cerón
+// Copyright (C) 2006, 2007, 2008 MonoUML Team (http://www.monouml.org)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,41 +23,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
+//
 using System;
+using System.Collections.Generic;
 using Cairo;
-using Gdk;
+using MonoHotDraw;
+using MonoHotDraw.Connectors;
 using MonoHotDraw.Figures;
+using MonoHotDraw.Tools;
 using MonoHotDraw.Util;
+using MonoHotDraw.Handles;
+
+
 
 namespace MonoDevelop.ClassDesigner.Figures {
 
-    public class TypeMemberFigure: HStackFigure {
+    public class UseCaseFigure: BaseBoxFigure {
 
-        public TypeMemberFigure(string retvalue, string name): base()
-        {
-            //_icon = new PixbufFigure(icon);
-
-            _retvalue = new SimpleTextFigure("\t" + retvalue);
-            _name = new SimpleTextFigure(name);
-
-            _name.Padding = 0.0;
-            _name.FontSize = 10;
-            _retvalue.Padding = 0.0;
-            _retvalue.FontSize = 10;
-            _retvalue.FontColor = new Cairo.Color(0, 0, 1.0);
-
-
-            Alignment = HStackAlignment.Bottom;
-
-            //Add(_icon);
-            Add(_retvalue);
-            Add(_name);
+        public UseCaseFigure (): base () {
         }
-
-        private SimpleTextFigure _retvalue;
-        private SimpleTextFigure _name;
-        private PixbufFigure _icon;
-       // private Xwt.Drawing.Image _icon;
     }
 }

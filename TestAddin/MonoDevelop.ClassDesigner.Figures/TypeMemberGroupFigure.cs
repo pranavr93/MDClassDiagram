@@ -63,7 +63,7 @@ namespace MonoDevelop.ClassDesigner.Figures {
 		}
 		
 		public void AddMember(Pixbuf icon, string retValue, string name) {
-			TypeMemberFigure member = new TypeMemberFigure(retValue, name);
+			TypeMemberFigure member = new TypeMemberFigure( retValue, name);
 			membersStack.Add(member);
 		}
 		

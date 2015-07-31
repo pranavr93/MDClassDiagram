@@ -63,12 +63,12 @@ using MonoDevelop.Ide.Gui.Components;
 
 namespace MonoDevelop.ClassDesigner.Figures {
 
-	public abstract class TypeFigure: VStackFigure {
+    public abstract class TypeFigure: VStackFigure {
 
 		public TypeFigure(): base() {
 			Spacing = 30.0;
 			Header = new TypeHeaderFigure();
-			members = new VStackFigure();
+            members = new VStackFigure();
 			Add(Header);
 
 			expandHandle = new ToggleButtonHandle(this, new AbsoluteLocator(10, 20));
@@ -90,9 +90,28 @@ namespace MonoDevelop.ClassDesigner.Figures {
 			Header.Namespace = node.Namespace;
 			Header.Type = node.Type.ToString();
 			foreach(var field in node.Fields){
-                Pixbuf icon = null;
+                
+                //string iconid = MonoDevelop.Ide.Gui.Stock.Field;
+                //Xwt.Drawing.Image image = MonoDevelop.Ide.ImageService.GetIcon(iconid,IconSize.Menu);
+              //  Xwt.Drawing.BitmapImage img = image.ToBitmap();
+               // img.
+                //ImageService;
+                //Xwt.Drawing.Image.
+                            
+                //ImageService.Get
+                //if(iconz == null)
+                //    Console.WriteLine("pixbuff nullllll");
+                //Pixbuf icon = iconz.Pixbuf;
+                Pixbuf icon = null;   
                 AddField(icon,field.ReturnType, field.Name);
                 //Pixbuf icon = MonoDevelop.Ide.ImageService.Get(MonoDevelop.Ide.Gui.Stock.Property, IconSize.Menu);
+               // MonoDevelop.Ide.ImageService.GetIcon(
+                //MonoDevelop.Ide.ImageService.G
+
+               
+
+
+
 			}
 			foreach(var method in node.Methods){
 				Pixbuf icon = null;
@@ -155,7 +174,27 @@ namespace MonoDevelop.ClassDesigner.Figures {
 				foreach (IHandle handle in base.HandlesEnumerator)
 					yield return handle;
 			}
+            //get {
+            //    if (_handles == null) {
+            //        InstantiateHandles ();
+            //    }
+
+            //    foreach (IHandle handle in _handles) {
+            //        yield return handle;
+            //    }
+            //}
 		}
+        private void InstantiateHandles () {
+            _handles = new List <IHandle> ();
+            _handles.Add (new SouthEastHandle (this));
+            _handles.Add (new SouthWestHandle (this));
+            _handles.Add (new NorthWestHandle (this));
+            _handles.Add (new NorthEastHandle (this));
+            _handles.Add (new NorthHandle (this));
+            _handles.Add (new EastHandle (this));
+            _handles.Add (new SouthHandle (this));
+            _handles.Add (new WestHandle (this));
+        }
 
 		// FIXME: Use an IType member instead
 		public string Name {
@@ -199,13 +238,18 @@ namespace MonoDevelop.ClassDesigner.Figures {
 			AddMemberGroup(events);
 		}
 
+        protected override void OnFigureChanged (FigureEventArgs e) {
+            base.OnFigureChanged(e);
+
+        }
 
 		protected TypeMemberGroupFigure fields;
 		protected TypeMemberGroupFigure properties;
 		protected TypeMemberGroupFigure methods;
 		protected TypeMemberGroupFigure events;
+        private List <IHandle> _handles;
 
-		private VStackFigure members;
+        private VStackFigure members;
 		private ToggleButtonHandle expandHandle;
 	}
 }

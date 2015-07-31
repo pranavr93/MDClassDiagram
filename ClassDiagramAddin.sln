@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAddin", "TestAddin\TestAddin.csproj", "{66A46C46-8AE6-4610-BE08-8317BDC3EBC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassDiagramAddin", "TestAddin\ClassDiagramAddin.csproj", "{66A46C46-8AE6-4610-BE08-8317BDC3EBC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,15 +3,15 @@ using Mono.Addins;
 using Mono.Addins.Description;
 
 [assembly:Addin (
-	"FirstAddin",
-	Namespace = "FirstAddin",
+    "ClassDiagramAddin",
+    Namespace = "ClassDiagramAddin",
 	Version = "1.0"
 )]
 
-[assembly:AddinName ("FirstAddin")]
-[assembly:AddinCategory ("FirstAddin")]
-[assembly:AddinDescription ("FirstAddin")]
-[assembly:AddinAuthor ("Michael Hutchinson")]
+[assembly:AddinName ("ClassDiagramAddin")]
+[assembly:AddinCategory ("ClassDiagramAddin")]
+[assembly:AddinDescription ("ClassDiagramAddin")]
+[assembly:AddinAuthor ("Pranav Ramarao")]
 
 [assembly:AddinDependency ("::MonoDevelop.Core", MonoDevelop.BuildInfo.Version)]
 [assembly:AddinDependency ("::MonoDevelop.Ide", MonoDevelop.BuildInfo.Version)]

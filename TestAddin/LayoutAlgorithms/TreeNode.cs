@@ -12,15 +12,20 @@ using System;
 using System.Linq;
 using System.Windows;
 
-namespace FirstAddin{
+namespace ClassDiagramAddin{
     public class TreeNode
     {
         TreeNode parent;
         List<string> children;
         public string Name{get;set;}
+        public string Parent{get;set;}
         public TreeNode(string name)
         {
             this.Name = name;
+        }
+        public void AddChild(string name)
+        {
+            this.children.Add(name);
         }
     }
 }
