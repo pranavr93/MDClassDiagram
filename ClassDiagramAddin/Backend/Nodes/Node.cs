@@ -19,15 +19,11 @@ namespace Backend
 		//public List<Node> AllNodes;
 
 		public List<string> Links;
+        public List<string> Implementations;
 
 
-		public Node(string name){
+        public Node(string name) : this(){
 			this.Name = name;
-			this.Methods = new List<MethodNode>();
-			this.Fields = new List<FieldNode>();
-			this.Properties = new List<PropertyNode>();
-			this.Events = new List<EventNode>();
-			this.Links = new List<string>();
 		}
 		public Node(){
 			this.Name = "Type Name";
@@ -36,6 +32,7 @@ namespace Backend
 			this.Properties = new List<PropertyNode>();
 			this.Events = new List<EventNode>();
 			this.Links = new List<string>();
+            this.Implementations = new List<string>();
 		}
 
     }

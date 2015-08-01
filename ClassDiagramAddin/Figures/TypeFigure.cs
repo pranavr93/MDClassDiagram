@@ -65,7 +65,7 @@ namespace Figures {
     public abstract class TypeFigure: VStackFigure {
 
 		public TypeFigure(string type): base() {
-			Spacing = 30.0;
+			Spacing = 10.0;
             Header = new TypeHeaderFigure(GetPixBuf(type));
             members = new VStackFigure();
 			Add(Header);
@@ -136,10 +136,11 @@ namespace Figures {
 			context.LineWidth = 1.0;
 			context.Rectangle(GdkCairoHelper.CairoRectangle(rect));
 			//context.Color = new Cairo.Color(1.0, 1.0, 0.7, 0.3);
-
-            context.Color = new Cairo.Color(0.879, 0.88, 0.90, 1.0);
+            context.SetSourceColor(new Cairo.Color(0.879, 0.88, 0.90, 1.0));
 			context.FillPreserve();
-			context.Color = new Cairo.Color(0.0, 0.0, 0.0, 1.0);
+
+            //Uncomment below to give border colour
+            context.SetSourceColor(new Cairo.Color(0.0, 0.0, 0.0, 1.0));
 			context.Stroke();
 
 			base.BasicDraw(context);
@@ -227,6 +228,12 @@ namespace Figures {
 			methods = new TypeMemberGroupFigure(GettextCatalog.GetString("Methods"));
 			events = new TypeMemberGroupFigure(GettextCatalog.GetString("Events"));
 
+            //Spacing for the above will create gap between Field title and each field
+            //fields.Spacing = 30;
+            //properties.Spacing = 30;
+            //methods.Spacing = 30;
+            //events.Spacing = 30;
+
 			AddMemberGroup(fields);
 			AddMemberGroup(properties);
 			AddMemberGroup(methods);
@@ -246,6 +253,6 @@ namespace Figures {
 
         private VStackFigure members;
 		private ToggleButtonHandle expandHandle;
-        private string NodeType;
+        //private string NodeType;
 	}
 }

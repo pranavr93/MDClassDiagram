@@ -36,7 +36,8 @@ namespace Figures {
 		}
 		
 		public InheritanceConnectionFigure(IFigure fig1, IFigure fig2): base(fig1, fig2) {
-			EndTerminal = new TriangleArrowLineTerminal();
+            // First parameter : width  Second parameter: Height of the arrow
+			EndTerminal = new TriangleArrowLineTerminal(7,10);
 		}
 		
 		public override bool CanConnectEnd (IFigure figure) {

@@ -15,17 +15,20 @@ using System.Windows;
 namespace ClassDiagramAddin{
     public class TreeNode
     {
-        TreeNode parent;
-        List<string> children;
-        public string Name{get;set;}
-        public string Parent{get;set;}
         public TreeNode(string name)
         {
             this.Name = name;
+            this.children = new List<TreeNode>();
         }
-        public void AddChild(string name)
+        public void AddChild(TreeNode node)
         {
-            this.children.Add(name);
+            this.children.Add(node);
         }
+
+        TreeNode parent;
+        public List<TreeNode> children;
+        public string Name{get;set;}
+        public Node Node {get;set;}
+        public TreeNode Parent{get;set;}
     }
 }

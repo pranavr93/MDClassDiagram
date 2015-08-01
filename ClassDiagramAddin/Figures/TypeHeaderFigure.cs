@@ -51,6 +51,7 @@ namespace Figures {
 			nameFigure.FontSize = 12;
 
 
+
 			Spacing = 3.0;
             _icon = new PixbufFigure(icon);
             //Add(new TypeMemberFigure(icon,"",typeFigure.Text));

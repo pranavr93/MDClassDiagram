@@ -43,8 +43,10 @@ namespace Figures {
 			groupName.Padding = 0;
 			groupName.FontSize = 12;
 			groupName.FontColor = new Cairo.Color(0.3, 0.0, 0.0);
-			
-			Add(groupName);
+            groupName.FontFamily = Pango.Weight.Heavy.ToString();
+            //groupName.FontColor  = new Cairo.Color(1.0,1.0,1.0);
+            //this.FillColor = new Cairo.Color(1.0,1.0,1.0);
+            Add(groupName);
 			
 			membersStack = new VStackFigure();
 			membersStack.Spacing = 8;
@@ -58,8 +60,12 @@ namespace Figures {
 					Remove(membersStack);
 				}
 			};
+           
 			expandHandle.Active = true;
 			expandHandle.FillColor = new Cairo.Color(0,0,0.0,0.0);
+            expandHandle.Height = 10;
+            expandHandle.Width = 10;
+
 		}
 		
 		public void AddMember(Pixbuf icon, string retValue, string name) {

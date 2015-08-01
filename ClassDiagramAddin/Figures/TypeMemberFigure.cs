@@ -46,7 +46,6 @@ namespace Figures {
             _retvalue.FontSize = 10;
             _retvalue.FontColor = new Cairo.Color(0, 0, 1.0);
 
-
             Alignment = HStackAlignment.Bottom;
 
             Add(_icon);

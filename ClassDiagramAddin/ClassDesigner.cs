@@ -31,7 +31,7 @@ namespace ClassDiagramAddin{
             mhdEditor = new MonoHotDraw.SteticComponent();
             mhdEditor.ShowAll();
 
-            ILayout algorithm = new BruteLayout();
+            ILayout algorithm = new TreeLayout();
             foreach(var figure in algorithm.GetFigures(cls))
             {
                 mhdEditor.View.Drawing.Add(figure);

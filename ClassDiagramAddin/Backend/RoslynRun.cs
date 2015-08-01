@@ -135,7 +135,7 @@ namespace Backend
                 foreach(var item in res.Interfaces)
                 {
                     //Add all interfaces that the class implements
-                    classnode.Links.Add(item.ToString());
+                    classnode.Implementations.Add(item.ToString());
                 }
             }
             return classnode;
@@ -212,7 +212,7 @@ namespace Backend
                 var res = model.GetDeclaredSymbol(EachInterface);
                 foreach(var item in res.Interfaces)
                 {
-                    interfacenode.Links.Add(item.ToString());
+                    interfacenode.Implementations.Add(item.ToString());
                 }
             }
             return interfacenode;
