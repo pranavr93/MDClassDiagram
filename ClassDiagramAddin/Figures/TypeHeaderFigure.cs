@@ -30,15 +30,17 @@ using MonoHotDraw.Figures;
 using MonoHotDraw.Util;
 using MonoHotDraw.Handles;
 using MonoHotDraw.Locators;
+using Gdk;
+
 
 namespace Figures {
 	
-	public class TypeHeaderFigure: VStackFigure {
+    public class TypeHeaderFigure: VStackFigure {
 		
-		public TypeHeaderFigure(): base() {
+        public TypeHeaderFigure(Pixbuf icon): base() {
 			namespaceFigure = new SimpleTextFigure("Namespace");
 			namespaceFigure.Padding = 0;
-			namespaceFigure.FontSize = 7;
+			namespaceFigure.FontSize = 9;
 			
 			typeFigure = new SimpleTextFigure("Type");
 			typeFigure.Padding = 0;
@@ -47,10 +49,13 @@ namespace Figures {
 			nameFigure = new SimpleTextFigure("Name");
 			nameFigure.Padding = 0;
 			nameFigure.FontSize = 12;
-			
+
+
 			Spacing = 3.0;
-			
-			Add(typeFigure);
+            _icon = new PixbufFigure(icon);
+            //Add(new TypeMemberFigure(icon,"",typeFigure.Text));
+            Add(_icon);
+			//Add(typeFigure);
 			Add(namespaceFigure);
 			Add(nameFigure);
 		}
@@ -78,12 +83,21 @@ namespace Figures {
 				return typeFigure.Text;
 			}
 			set {
-				typeFigure.Text = value;
+   				typeFigure.Text = value;
 			}
 		}
-		
+        public PixbufFigure Icon{
+            get {
+                return _icon;
+            }
+            set {
+                _icon = value;
+            }
+        
+        }
 		private SimpleTextFigure namespaceFigure;
 		private SimpleTextFigure typeFigure;
 		private SimpleTextFigure nameFigure;
+        private PixbufFigure _icon;
 	}
 }

@@ -35,8 +35,9 @@ using Backend;
 namespace Figures {
 
 	public class InterfaceFigure: TypeFigure {
+        static string type = MonoDevelop.Ide.Gui.Stock.Interface;
 
-		public InterfaceFigure(InterfaceNode interfacenode): base(interfacenode) {
+		public InterfaceFigure(InterfaceNode interfacenode): base(interfacenode, type) {
 		}
 
 	}

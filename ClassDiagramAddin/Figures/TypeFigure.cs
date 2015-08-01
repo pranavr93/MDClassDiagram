@@ -49,7 +49,6 @@ using MonoDevelop.Projects;
 using Mono.TextEditor;
 using System.ComponentModel;
 
-
 //using System;
 
 using Mono.Addins;
@@ -65,9 +64,9 @@ namespace Figures {
 
     public abstract class TypeFigure: VStackFigure {
 
-		public TypeFigure(): base() {
+		public TypeFigure(string type): base() {
 			Spacing = 30.0;
-			Header = new TypeHeaderFigure();
+            Header = new TypeHeaderFigure(GetPixBuf(type));
             members = new VStackFigure();
 			Add(Header);
 
@@ -82,49 +81,44 @@ namespace Figures {
 			};
 			expandHandle.Active = false;
 			expandHandle.FillColor = new Cairo.Color(0,0,0.0,0.0);
-			CreateGroups();
+			
 		}
-		public TypeFigure(Node node): this() {
+        private Pixbuf GetPixBuf(string type)
+        {
+            Xwt.Drawing.Image image = MonoDevelop.Ide.ImageService.GetIcon(type,IconSize.Menu);
+            return MonoDevelop.Components.GtkUtil.ToPixbuf(image);
+        }
+		public TypeFigure(Node node, string type): this(type) {
 
 			Header.Name = node.Name;
 			Header.Namespace = node.Namespace;
-			Header.Type = node.Type.ToString();
+			//Header.Type = node.Type.ToString();
+            CreateGroups();
+
 			foreach(var field in node.Fields){
-                
-                //string iconid = MonoDevelop.Ide.Gui.Stock.Field;
-                //Xwt.Drawing.Image image = MonoDevelop.Ide.ImageService.GetIcon(iconid,IconSize.Menu);
-              //  Xwt.Drawing.BitmapImage img = image.ToBitmap();
-               // img.
-                //ImageService;
-                //Xwt.Drawing.Image.
-                            
-                //ImageService.Get
-                //if(iconz == null)
-                //    Console.WriteLine("pixbuff nullllll");
-                //Pixbuf icon = iconz.Pixbuf;
-                Pixbuf icon = null;   
+                Pixbuf icon = GetPixBuf(MonoDevelop.Ide.Gui.Stock.Field);
                 AddField(icon,field.ReturnType, field.Name);
-                //Pixbuf icon = MonoDevelop.Ide.ImageService.Get(MonoDevelop.Ide.Gui.Stock.Property, IconSize.Menu);
-               // MonoDevelop.Ide.ImageService.GetIcon(
-                //MonoDevelop.Ide.ImageService.G
-
-               
-
-
-
 			}
 			foreach(var method in node.Methods){
-				Pixbuf icon = null;
+                Pixbuf icon = GetPixBuf(MonoDevelop.Ide.Gui.Stock.Method);
 				AddMethod(icon,method.ReturnType,method.Name);
 			}
             foreach(var evnt in node.Events){
-                Pixbuf icon = null;
+                Pixbuf icon = GetPixBuf(MonoDevelop.Ide.Gui.Stock.Event);
                 AddEvent(icon, evnt.ReturnType,evnt.Name);
             }
             foreach(var property in node.Properties){
-                Pixbuf icon = null;
+                Pixbuf icon = GetPixBuf(MonoDevelop.Ide.Gui.Stock.Property);
                 AddProperty(icon, property.ReturnType, property.Name);
             }
+            if(node.Fields.Count == 0)
+                members.Remove(fields);
+            if(node.Methods.Count == 0)
+                members.Remove(methods);
+            if(node.Properties.Count == 0)
+                members.Remove(properties);
+            if(node.Events.Count == 0)
+                members.Remove(events);
 		}
 
 
@@ -142,6 +136,7 @@ namespace Figures {
 			context.LineWidth = 1.0;
 			context.Rectangle(GdkCairoHelper.CairoRectangle(rect));
 			//context.Color = new Cairo.Color(1.0, 1.0, 0.7, 0.3);
+
             context.Color = new Cairo.Color(0.879, 0.88, 0.90, 1.0);
 			context.FillPreserve();
 			context.Color = new Cairo.Color(0.0, 0.0, 0.0, 1.0);
@@ -251,5 +246,6 @@ namespace Figures {
 
         private VStackFigure members;
 		private ToggleButtonHandle expandHandle;
+        private string NodeType;
 	}
 }

@@ -33,11 +33,11 @@ namespace Figures {
 
     public class TypeMemberFigure: HStackFigure {
 
-        public TypeMemberFigure(string retvalue, string name): base()
+        public TypeMemberFigure(Pixbuf icon,string retvalue, string name): base()
         {
-            //_icon = new PixbufFigure(icon);
+            _icon = new PixbufFigure(icon);
 
-            _retvalue = new SimpleTextFigure("\t" + retvalue);
+            _retvalue = new SimpleTextFigure(retvalue);
             _name = new SimpleTextFigure(name);
 
             _name.Padding = 0.0;
@@ -49,7 +49,7 @@ namespace Figures {
 
             Alignment = HStackAlignment.Bottom;
 
-            //Add(_icon);
+            Add(_icon);
             Add(_retvalue);
             Add(_name);
         }

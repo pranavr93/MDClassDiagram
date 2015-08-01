@@ -35,8 +35,9 @@ using Backend;
 namespace Figures {
 
 	public class EnumFigure: TypeFigure {
+        static string type = MonoDevelop.Ide.Gui.Stock.Enum;
 
-		public EnumFigure(EnumNode enumnode): base(enumnode) {
+		public EnumFigure(EnumNode enumnode): base(enumnode, type) {
 		}
 
 	}
