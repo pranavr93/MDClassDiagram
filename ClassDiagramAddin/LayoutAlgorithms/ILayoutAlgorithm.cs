@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * This is the interface that any Layout algorithm should implement.
+ */ 
+using System.Collections.Generic;
 
 using MonoDevelop.Core;
 using MonoDevelop.Ide.Gui;

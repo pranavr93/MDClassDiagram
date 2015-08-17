@@ -271,6 +271,7 @@ namespace Backend
                 {
 					ClassNode c = GetClassNode(EachClass);
 					c.Namespace = model.GetDeclaredSymbol(EachClass).ToString();
+                    c.FilePath = st.FilePath;
                     uml.ClassNodes.Add(c);
                 }
 
@@ -278,7 +279,10 @@ namespace Backend
                 var AllStructs = st.GetRoot().DescendantNodes().OfType<StructDeclarationSyntax>();
                 foreach (var EachStruct in AllStructs)
                 {
-                    uml.StructNodes.Add(GetStructNode(EachStruct));
+                    StructNode snode = GetStructNode(EachStruct);
+                    snode.Namespace = model.GetDeclaredSymbol(EachStruct).ToString();
+                    snode.FilePath = st.FilePath;
+                    uml.StructNodes.Add(snode);
                 }
 
                 // For reach interface in file
@@ -287,6 +291,7 @@ namespace Backend
                 {
                     InterfaceNode inf = GetInterfaceNode(EachInterface);
                     inf.Namespace = model.GetDeclaredSymbol(EachInterface).ToString();
+                    inf.FilePath = st.FilePath;
                     uml.InterfaceNodes.Add(inf);
 
                 }
@@ -297,6 +302,7 @@ namespace Backend
                 {
                     EnumNode enode = GetEnumNode(EachEnum);
                     enode.Namespace = model.GetDeclaredSymbol(EachEnum).ToString();
+                    enode.FilePath = st.FilePath;
                     uml.EnumNodes.Add(enode);
                 }
             }

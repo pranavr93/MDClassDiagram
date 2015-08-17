@@ -70,29 +70,50 @@ namespace Figures {
             members = new VStackFigure();
 			Add(Header);
 
-			expandHandle = new ToggleButtonHandle(this, new AbsoluteLocator(10, 20));
-			expandHandle.Toggled += delegate(object sender, ToggleEventArgs e) {
-				if (e.Active) {
-					Add(members);
-				}
-				else {
-					Remove(members);
-				}
-			};
-			expandHandle.Active = false;
-			expandHandle.FillColor = new Cairo.Color(0,0,0.0,0.0);
 			
+           
+     
+
 		}
+
         private Pixbuf GetPixBuf(string type)
         {
             Xwt.Drawing.Image image = MonoDevelop.Ide.ImageService.GetIcon(type,IconSize.Menu);
             return MonoDevelop.Components.GtkUtil.ToPixbuf(image);
         }
 		public TypeFigure(Node node, string type): this(type) {
-
 			Header.Name = node.Name;
 			Header.Namespace = node.Namespace;
-			//Header.Type = node.Type.ToString();
+			Header.Type = node.Type.ToString();
+
+            // Opensthe corresponding file
+            openClassHandle = new ToggleButtonHandle(this,new AbsoluteLocator(this.DisplayBox.Width, 10));
+            openClassHandle.Toggled += delegate(object sender, ToggleEventArgs e) {
+                if (e.Active) {
+                    //openClassHandle.Active = false;;
+                    MonoDevelop.Ide.IdeApp.Workbench.OpenDocument(new FilePath(node.FilePath),IdeApp.ProjectOperations.CurrentSelectedProject,true);
+                }
+                else {
+                    //Console.WriteLine("Opening a file!!");
+
+                }
+            };
+            openClassHandle.Active = false;
+            openClassHandle.FillColor = new Cairo.Color(0,0,0.0,0.0);
+
+            expandHandle = new ToggleButtonHandle(this, new AbsoluteLocator(10, 20));
+            expandHandle.Toggled += delegate(object sender, ToggleEventArgs e) {
+                if (e.Active) {
+                    Add(members);
+                }
+                else {
+                    Remove(members);
+                }
+            };
+            expandHandle.Active = false;
+            expandHandle.FillColor = new Cairo.Color(0,0,0.0,0.0);
+
+
             CreateGroups();
 
 			foreach(var field in node.Fields){
@@ -135,14 +156,13 @@ namespace Figures {
 			rect.OffsetDot5();
 			context.LineWidth = 1.0;
 			context.Rectangle(GdkCairoHelper.CairoRectangle(rect));
-			//context.Color = new Cairo.Color(1.0, 1.0, 0.7, 0.3);
-            context.SetSourceColor(new Cairo.Color(0.879, 0.88, 0.90, 1.0));
+            context.SetSourceColor(this.color);
+
 			context.FillPreserve();
 
             //Uncomment below to give border colour
             context.SetSourceColor(new Cairo.Color(0.0, 0.0, 0.0, 1.0));
 			context.Stroke();
-
 			base.BasicDraw(context);
 		}
 
@@ -167,6 +187,7 @@ namespace Figures {
 		public override IEnumerable<IHandle> HandlesEnumerator {
 			get {
 				yield return expandHandle;
+                yield return openClassHandle;
 				foreach (IHandle handle in base.HandlesEnumerator)
 					yield return handle;
 			}
@@ -253,6 +274,8 @@ namespace Figures {
 
         private VStackFigure members;
 		private ToggleButtonHandle expandHandle;
+        private ToggleButtonHandle openClassHandle;
+        public Cairo.Color color {get;set;}
         //private string NodeType;
 	}
 }

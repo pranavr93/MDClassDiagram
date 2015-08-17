@@ -39,7 +39,7 @@ using MonoHotDraw.Handles;
 namespace Figures {
 
     public class UseCaseFigure: BaseBoxFigure {
-
+            
         public UseCaseFigure (): base () {
         }
     }

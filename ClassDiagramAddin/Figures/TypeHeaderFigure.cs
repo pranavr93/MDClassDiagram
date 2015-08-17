@@ -40,15 +40,15 @@ namespace Figures {
         public TypeHeaderFigure(Pixbuf icon): base() {
 			namespaceFigure = new SimpleTextFigure("Namespace");
 			namespaceFigure.Padding = 0;
-			namespaceFigure.FontSize = 9;
+            namespaceFigure.FontSize = 9;
 			
 			typeFigure = new SimpleTextFigure("Type");
 			typeFigure.Padding = 0;
-			typeFigure.FontSize = 7;
+            typeFigure.FontSize = 7;
 
 			nameFigure = new SimpleTextFigure("Name");
 			nameFigure.Padding = 0;
-			nameFigure.FontSize = 12;
+            nameFigure.FontSize = 12;
 
 
 

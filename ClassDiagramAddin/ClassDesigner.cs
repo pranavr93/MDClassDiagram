@@ -36,7 +36,7 @@ namespace ClassDiagramAddin{
             {
                 mhdEditor.View.Drawing.Add(figure);
             }
-        }       
+        }	 
         private MonoHotDraw.SteticComponent mhdEditor;          
     }   
 }

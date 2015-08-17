@@ -13,6 +13,7 @@ namespace Figures {
         static string type = MonoDevelop.Ide.Gui.Stock.Struct;
 
 		public StructFigure(StructNode structnode): base(structnode, type) {
+            base.color = new Cairo.Color(0.879, 0.88, 0.90, 1.0);
 		}
 
 	}

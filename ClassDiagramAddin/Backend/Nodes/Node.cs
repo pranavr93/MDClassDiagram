@@ -11,7 +11,7 @@ namespace Backend
 		public string Namespace {get;set;}
 		public string Name {get;set;}
 		public Type Type {get;set;}
-
+        public string FilePath {get;set;}
 		public List<MethodNode> Methods;
 		public List<FieldNode> Fields;
 		public List<PropertyNode> Properties;
