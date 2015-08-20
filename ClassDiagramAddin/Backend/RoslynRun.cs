@@ -75,8 +75,6 @@ namespace Backend
             EventNode eventnode = new EventNode();
             eventnode.Name      = evnt.EventKeyword.ToString();
             eventnode.Modifier  = evnt.Modifiers.ToString();
-            //Console.WriteLine(eventnode.Name);
-            //Console.WriteLine(eventnode.Modifier);
             return eventnode;
         }
 
@@ -91,7 +89,6 @@ namespace Backend
             // For each member in that class
             foreach (var member in EachClass.Members)
             {
-                //Console.WriteLine(member.ToFullString());
                 if (member is FieldDeclarationSyntax)
                 {
                     FieldDeclarationSyntax fd = member as FieldDeclarationSyntax;
@@ -113,7 +110,6 @@ namespace Backend
 				}
                 else if (member is EventFieldDeclarationSyntax)
 				{
-                    //Console.WriteLine("Event found");
                     EventFieldDeclarationSyntax evnt = member as EventFieldDeclarationSyntax; 
                     classnode.Events.Add(GetEventNode(evnt));
 				}
@@ -169,7 +165,6 @@ namespace Backend
                 }
                 else if (member is EventFieldDeclarationSyntax)
                 {
-                    //Console.WriteLine("Event found");
                     EventFieldDeclarationSyntax evnt = member as EventFieldDeclarationSyntax; 
                     structnode.Events.Add(GetEventNode(evnt));
                 }
@@ -202,7 +197,6 @@ namespace Backend
                 }
                 else if (member is EventFieldDeclarationSyntax)
                 {
-                    //Console.WriteLine("Event found");
                     EventFieldDeclarationSyntax evnt = member as EventFieldDeclarationSyntax; 
                     interfacenode.Events.Add(GetEventNode(evnt));
                 }
@@ -227,9 +221,6 @@ namespace Backend
                 FieldNode f = new FieldNode();
                 f.Name = member.Identifier.ToString();
                 enumnode.Fields.Add(f);
-                //Console.WriteLine(member.Identifier.ToString());
-                //enumnode.AddMember(member.Identifier.ToString());
-                //enumnode.Fields.Add(member.Identifier.ToString());
             }
 
 
@@ -245,10 +236,6 @@ namespace Backend
                 if (item.Severity == DiagnosticSeverity.Error)
                 {
                     Console.WriteLine("Code has compile time errors. Kindly fix them");
-					Console.WriteLine(item.GetMessage());
-					Console.WriteLine(item.ToString());
-					Console.WriteLine(item.Location.ToString());
-
                 }
             }
 			
@@ -306,15 +293,11 @@ namespace Backend
                     uml.EnumNodes.Add(enode);
                 }
             }
-			Console.WriteLine(".\n.\n.\n.");
             return uml;
         }
-
-
 		private static SemanticModel model;
 
 		private static List<SemanticModel> models = new List<SemanticModel>();
  
     }
-
 }

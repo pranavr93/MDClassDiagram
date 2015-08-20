@@ -62,8 +62,6 @@ namespace ClassDiagramAddin{
             {
                 foreach(var parent in cnode.Links)
                 {
-                    //Console.Write(cnode.Namespace);
-                    //Console.WriteLine(parent.ToString());
                     var parentnode = GetTreeNode(parent);
                     var childnode = GetTreeNode(cnode.Namespace);
 
@@ -190,10 +188,8 @@ namespace ClassDiagramAddin{
                     
                     imps= imps + space_string + implementation + space_string;
                     imps+="\n";
-                    Console.WriteLine(node.Name + " " + implementation);
                 }
                 SimpleTextFigure interf = new SimpleTextFigure(imps);
-                Console.WriteLine(node.Namespace);
                 figureToInterfaces.Add(subclass.Namespace,interf);
                 InheritanceConnectionFigure connex = new InheritanceConnectionFigure(subclass, interf);
                 yield return connex;

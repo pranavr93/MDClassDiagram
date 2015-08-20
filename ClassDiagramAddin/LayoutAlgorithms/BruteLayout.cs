@@ -68,7 +68,6 @@ namespace ClassDiagramAddin{
                 {
                     imps+=implementation;
                     imps+="\n";
-                    Console.WriteLine(node.Name + " " + implementation);
                 }
                 SimpleTextFigure interf = new SimpleTextFigure(imps);
                 figureToInterfaces.Add(subclass.Namespace,interf);
@@ -84,7 +83,6 @@ namespace ClassDiagramAddin{
             foreach (TypeFigure figure in figures)  {
                 figure.MoveTo(x, y);
                 if(figureToInterfaces.ContainsKey(figure.Namespace)){
-                    //Console.WriteLine("wtf");
                     var simple = figureToInterfaces[figure.Namespace];
                     simple.MoveTo(x,y-50);
                     yield return simple;

@@ -71,10 +71,6 @@ namespace Figures {
                     //openClassHandle.Active = false;;
                     MonoDevelop.Ide.IdeApp.Workbench.OpenDocument(new FilePath(node.FilePath),IdeApp.ProjectOperations.CurrentSelectedProject,true);
                 }
-                else {
-                    //Console.WriteLine("Opening a file!!");
-
-                }
             };
             openClassHandle.Active = false;
             openClassHandle.FillColor = new Cairo.Color(0,0,0.0,0.0);
