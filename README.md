@@ -19,6 +19,3 @@ Currently, the class diagram has the following features:<br>
 4. Easy modifications on Inheritance links.<br>
 5. Icons<br><br>
 
-There are plans to add more features. If you have any suggestions/feedback/bugs or would like to try out the add-in, drop a mail to pranav.rr93@gmail.com.
-
-
